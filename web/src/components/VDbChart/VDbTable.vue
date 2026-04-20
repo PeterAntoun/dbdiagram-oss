@@ -162,8 +162,13 @@
   }
   const startDrag = (event) => {
     dragging.value = true
+    console.log('[drag] startDrag fired', event.clientX, event.clientY)
+    console.log('[drag] containerRef:', props.containerRef)
+    console.log('[drag] root.value.parentElement:', root.value?.parentElement)
+    console.log('[drag] getScreenCTM:', root.value?.parentElement?.getScreenCTM())
 
     const p = toSVGPoint(event.clientX, event.clientY)
+    console.log('[drag] svgPoint:', p.x, p.y, 'state:', state.value.x, state.value.y)
     dragOffsetX.value = p.x - state.value.x
     dragOffsetY.value = p.y - state.value.y
 
