@@ -93,8 +93,22 @@
           class="q-mr-sm"
           size="xs"
           name="file_upload"/>
-        Import
+        Import ({{ editor.source.format.toUpperCase() }})
       </template>
+
+      <q-list dense>
+        <q-item
+          v-for="importOption of importOptions"
+          :key="importOption.id"
+          clickable
+          dense
+          @click="() => selectImportFormat(importOption)"
+        >
+          <q-item-section>
+            <q-item-label>{{ importOption.label }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
     </q-btn-dropdown>
   </div>
 
@@ -142,6 +156,18 @@
   const editor = useEditorStore()
   const files = useFilesStore()
   const $q = useQuasar()
+
+  const importOptions = ref([
+    { id: 'dbml',      label: 'DBML (default)' },
+    { id: 'mysql',     label: 'MySQL' },
+    { id: 'postgres',  label: 'PostgreSQL' },
+    { id: 'mssql',     label: 'SQL Server' },
+    { id: 'snowflake', label: 'Snowflake' },
+  ])
+
+  const selectImportFormat = (option) => {
+    editor.updateSourceFormat(option.id)
+  }
 
   const exportOptions = ref([
     {

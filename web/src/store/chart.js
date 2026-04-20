@@ -113,16 +113,16 @@ export const useChartStore = defineStore("chart", {
       };
     },
     loadDatabase(database) {
-      for(const tableGroup of database.schemas[0].tableGroups)
-      {
+      const schema = database.schemas?.[0];
+      if (!schema) return;
+
+      for (const tableGroup of (schema.tableGroups ?? [])) {
         this.getTableGroup(tableGroup.id);
       }
-      for(const table of database.schemas[0].tables)
-      {
+      for (const table of (schema.tables ?? [])) {
         this.getTable(table.id);
       }
-      for(const ref of database.schemas[0].refs)
-      {
+      for (const ref of (schema.refs ?? [])) {
         this.getRef(ref.id);
       }
 

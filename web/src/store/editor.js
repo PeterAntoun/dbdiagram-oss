@@ -115,6 +115,15 @@ export const useEditorStore = defineStore("editor", {
           text: sourceText
         }
       });
+      this.updateDatabase();
+    },
+    updateSourceFormat(format) {
+      this.$patch({
+        source: {
+          format: format
+        }
+      });
+      this.updateDatabase();
     },
     updatePositions(positions) {
       this.$patch({
@@ -206,11 +215,13 @@ export const useEditorStore = defineStore("editor", {
     },
     updateParserError(err) {
       if (err) {
+        const start = err.location?.start;
+        const end = err.location?.end;
         this.$patch({
           parserError: {
             location: {
-              start: { row: err.location.start.line - 1, col: err.location.start.column - 1 },
-              end: { row: err.location.end.line - 1, col: err.location.end.column - 1 }
+              start: { row: start ? start.line - 1 : 0, col: start ? start.column - 1 : 0 },
+              end:   { row: end   ? end.line - 1   : 0, col: end   ? end.column - 1   : 0 }
             },
             type: 'error',
             message: err.message
