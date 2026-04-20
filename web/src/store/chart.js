@@ -5,8 +5,8 @@ export const useChartStore = defineStore("chart", {
   state: () => ({
     zoom: 1.0,
     pan: { x: 0, y: 0 },
-    ctm: [1, 0, 0, 1, 0, 0],
-    inverseCtm: [1, 0, 0, 1, 0, 0],
+    ctm: new DOMMatrix(),
+    inverseCtm: new DOMMatrix(),
     tableGroups: {},
     tables: {},
     refs: {},
