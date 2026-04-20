@@ -46,13 +46,15 @@ export const useChartStore = defineStore("chart", {
     },
     getTable(state) {
       return (tableId) => {
-        if (!(tableId in state.tables))
+        if (!(tableId in state.tables)) {
+          const index = Object.keys(state.tables).length;
           state.tables[tableId] = {
-            x: 0,
+            x: index * 280,
             y: 0,
             width: 200,
             height: 32
           };
+        }
         return state.tables[tableId];
       };
     },

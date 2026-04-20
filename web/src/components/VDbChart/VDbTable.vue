@@ -137,14 +137,15 @@
     dragging.value = false
   }
 
-  const drag = ({
-    offsetX,
-    offsetY
-  }) => {
-    const p = store.inverseCtm.transformPoint({
-      x: offsetX,
-      y: offsetY
-    })
+  const toSVGPoint = (clientX, clientY) => {
+    const pt = props.containerRef.createSVGPoint()
+    pt.x = clientX
+    pt.y = clientY
+    return pt.matrixTransform(props.containerRef.getScreenCTM().inverse())
+  }
+
+  const drag = (event) => {
+    const p = toSVGPoint(event.clientX, event.clientY)
     state.value.x = snap(p.x - dragOffsetX.value, gridSnap)
     state.value.y = snap(p.y - dragOffsetY.value, gridSnap)
     emit('update:position', state.value)
@@ -159,20 +160,13 @@
     props.containerRef.removeEventListener('mouseup', drop, { passive: true })
     props.containerRef.removeEventListener('mouseleave', onMouseLeave, { passive: true })
   }
-  const startDrag = ({
-    offsetX,
-    offsetY
-  }) => {
+  const startDrag = (event) => {
     dragging.value = true
 
-    const p = store.inverseCtm.transformPoint({
-      x: offsetX,
-      y: offsetY
-    })
+    const p = toSVGPoint(event.clientX, event.clientY)
     dragOffsetX.value = p.x - state.value.x
     dragOffsetY.value = p.y - state.value.y
 
-    dragOffset.value = props.containerRef.createSVGPoint()
     props.containerRef.addEventListener('mousemove', drag, { passive: true })
     props.containerRef.addEventListener('mouseup', drop, { passive: true })
     props.containerRef.addEventListener('mouseleave', onMouseLeave, { passive: true })
