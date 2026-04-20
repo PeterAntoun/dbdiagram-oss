@@ -141,7 +141,7 @@
     const pt = props.containerRef.createSVGPoint()
     pt.x = clientX
     pt.y = clientY
-    return pt.matrixTransform(props.containerRef.getScreenCTM().inverse())
+    return pt.matrixTransform(root.value.parentElement.getScreenCTM().inverse())
   }
 
   const drag = (event) => {
