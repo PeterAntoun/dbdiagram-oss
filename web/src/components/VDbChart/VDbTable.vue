@@ -25,7 +25,8 @@
       <rect
         height="35"
         :width="state.width"
-        :fill="headerColor"
+        :fill="headerColor || '#4a90d9'"
+        pointer-events="all"
         @mousedown.stop="startDrag"
         @click.passive="onHeaderClick"
       />
