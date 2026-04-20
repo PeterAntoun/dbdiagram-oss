@@ -13,6 +13,7 @@
     :height="state.height"
     @mouseenter.passive="onMouseEnter"
     @mouseleave.passive="onMouseLeave"
+    @mousedown="onSVGMouseDown"
   >
     <rect class="db-table__background"
           :width="state.width"
@@ -146,6 +147,18 @@
   const onMouseLeave = (e) => {
     highlight.value = false
     dragging.value = false
+  }
+
+  const onSVGMouseDown = (event) => {
+    const pt = props.containerRef.createSVGPoint()
+    pt.x = event.clientX
+    pt.y = event.clientY
+    const local = pt.matrixTransform(root.value.getScreenCTM().inverse())
+    console.log('[drag] SVG mousedown at local y:', local.y)
+    if (local.y < 35) {
+      event.stopPropagation()
+      startDrag(event)
+    }
   }
 
   const toSVGPoint = (clientX, clientY) => {
