@@ -107,6 +107,15 @@
   onMounted(() => {
     updateHeight();
     updateWidth();
+    const headerRect = root.value?.querySelector('g.db-table-header rect')
+    console.log('[table] onMounted headerRect:', headerRect, 'for', props.name)
+    if (headerRect) {
+      headerRect.addEventListener('mousedown', (e) => {
+        e.stopPropagation()
+        console.log('[table] direct mousedown on', props.name)
+        startDrag(e)
+      })
+    }
   })
 
   const emit = defineEmits([
