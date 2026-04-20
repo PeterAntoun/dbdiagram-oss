@@ -19,7 +19,6 @@
           :height="state.height"
     />
     <g class="db-table-header"
-       @mousedown.passive="startDrag"
        @mouseenter.passive="showTooltip"
        @mouseleave.passive="hideTooltip"
     >
@@ -27,6 +26,7 @@
         height="35"
         :width="state.width"
         :fill="headerColor"
+        @mousedown.stop="startDrag"
         @click.passive="onHeaderClick"
       />
       <text class="db-table-header__name"
@@ -131,6 +131,7 @@
 
   const onMouseEnter = (e) => {
     highlight.value = true
+    console.log('[table] mouseenter fired on', props.name)
   }
   const onMouseLeave = (e) => {
     highlight.value = false
